@@ -23,7 +23,7 @@ class CalculatorViewController: UIViewController {
     }
 
     @IBAction func tipChanged(_ sender: UIButton) {
-        calculatorBrain.total = billTextField.text!
+        calculatorBrain.total = Float(billTextField.text!) ?? 0.0
         zeroPctButton.isSelected = false;
         tenPctButton.isSelected = false;
         twentyPctButton.isSelected = false;
@@ -39,10 +39,17 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        let percetage = calculatorBrain.getPct()/100.0
-        let numberOfPeople = Float(calculatorBrain.getNumberOfPeople())
-        let total = calculatorBrain.getTotal()
-        print((total + total*percetage) / numberOfPeople )
+        self.performSegue(withIdentifier: "goToResults", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToResults" {
+            let destinationVC = segue.destination as! ResultsViewController
+            destinationVC.total = String(calculatorBrain.getTotal())
+            destinationVC.numberOfPeople = Float(calculatorBrain.getNumberOfPeople())
+            destinationVC.tip = calculatorBrain.getPct()
+            destinationVC.perPerson = calculatorBrain.getTotalPerPerson()
+        }
     }
 }
 

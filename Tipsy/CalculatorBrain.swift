@@ -12,7 +12,8 @@ struct CalculatorBrain {
     
     var pctSelected: Float = 10.0
     var people: Int = 2
-    var total: String = "0.0"
+    var total: Float = 0.0
+    var totalPerPerson: Float = 0.0
     
     func getPct () -> Float {
         return pctSelected
@@ -23,6 +24,12 @@ struct CalculatorBrain {
     }
     
     func getTotal() -> Float {
-        return Float(total) ?? 0.0
+        return total
+    }
+    
+    func getTotalPerPerson() -> Float {
+        let perPerson: Float = (total + total * (pctSelected / 100.0)) / Float(people)
+        print(total * (pctSelected/100.0))
+        return perPerson
     }
 }
